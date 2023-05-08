@@ -1,17 +1,21 @@
+import { useState } from "react";
+import Todo from "./models/todos";
 import Todos from "./components/Todos";
-import {Todo,Todo2} from "./models/todos";
+import MyTodo from "./components/MyTodo";
+
 function App() {
-  const todos = [
-    new Todo("리액트 타입스크립트 시연텍스트"),
-    new Todo("new와 this 문법을 다시 공부해야겠네 기억이안나 쏘리쏘리~"),
-  ]
-  const todos2 =[
-    new Todo2("선생님 숙제 요구사항이 이게 맞나요?"),
-    new Todo2("아닐거같긴한데 일단은 했습니다?"),
-  ]
+  let [todo, setTodo] = useState<Todo[]>([]);
+  const addTodoHandler = (text: string) => {
+    const newTodo = new Todo(text);
+    setTodo((prevTodo) => {
+      // return prevTodo.concat(newTodo); 스프레드 연산자
+      return [...prevTodo,newTodo];
+    });
+  };
   return (
     <div className="App">
-      <Todos items={todos} items2={todos2}/>
+      <MyTodo addTodo={addTodoHandler} />
+      <Todos items={todo} />
     </div>
   );
 }
